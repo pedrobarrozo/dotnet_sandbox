@@ -3,6 +3,7 @@ using System;
 using TestApi.Models;
 using MySqlConnector;
 using Dapper;
+using System.Text.Json;
 
 
 namespace TestApi.Repositories
@@ -29,14 +30,40 @@ namespace TestApi.Repositories
                 return connection.Query<ChoreItem>(s);
             }
         }
-        public int Create(ChoreItem chore)
+        public ChoreItem Create(ChoreItem chore)
         {
             using(MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 String s = String.Format("INSERT INTO Chores(`name`, `description`) VALUES ('{0}', '{1}')", chore.Name, chore.Description);
-                Console.WriteLine(s);
                 connection.Query(s);
-                return {"status": 201};
+                return chore;
+            }
+        }
+
+        public IEnumerable<ChoreItem> Update(int id, ChoreItem chore)
+        {
+            using(MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                if (chore.Name != null) {
+                    String s = String.Format("UPDATE Chores SET name = '{0}' WHERE id = {1}", chore.Name, id);
+                    connection.Query(s);
+                }
+                if (chore.Description != null) {
+                    String s = String.Format("UPDATE Chores SET description = '{0}' WHERE id = {1}", chore.Description, id);
+                    connection.Query(s);
+                }
+                if (chore.IsComplete != null) {
+                    Console.WriteLine("ok");
+                    if (chore.IsComplete) {
+                        String s = String.Format("UPDATE Chores SET iscomplete = true WHERE id = {0}", id);
+                        connection.Query(s);
+                    } else {
+                        String s = String.Format("UPDATE Chores SET iscomplete = false WHERE id = {0}", id);
+                        connection.Query(s);
+                    }
+                }
+                String r = String.Format("SELECT * FROM Chores WHERE id = {0}", id);
+                return connection.Query<ChoreItem>(r);
             }
         }
     }

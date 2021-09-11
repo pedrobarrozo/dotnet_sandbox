@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using TestApi.Models;
-
+using System.Text.Json;
 
 namespace TestApi.Repositories
 {
@@ -8,7 +8,8 @@ namespace TestApi.Repositories
     {
         IEnumerable<ChoreItem> GetAll();
         IEnumerable<ChoreItem> Get(int id);
-        int Create(ChoreItem chore);
+        ChoreItem Create(ChoreItem chore);
+        IEnumerable<ChoreItem> Update(int id,ChoreItem chore);
     }
     
 }

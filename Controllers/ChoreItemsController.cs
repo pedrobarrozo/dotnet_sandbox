@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using TestApi.Models;
 using TestApi.Repositories;
 using System.Linq;
+using System.Text.Json;
 
 namespace TestApi.Controller
 {
@@ -44,9 +45,17 @@ namespace TestApi.Controller
 
         // POST: api/Chores
         [HttpPost]
-        public int Post(ChoreItem chore)
+        public ChoreItem Post(ChoreItem chore)
         {
             var resp = _choreRepository.Create(chore);
+            return resp;
+        }
+
+        // POST: api/Chores/<int: id>
+        [HttpPut("{id}")]
+        public IEnumerable<ChoreItem> Put(int id, ChoreItem chore)
+        {
+            var resp = _choreRepository.Update(id, chore);
             return resp;
         }
     }
