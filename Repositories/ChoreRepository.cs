@@ -17,7 +17,7 @@ namespace TestApi.Repositories
         {
             using(MySqlConnection connection = new MySqlConnection(_connectionString))
             {
-                return connection.Query<ChoreItem>("SELECT * FROM Chore ORDER BY name ASC");
+                return connection.Query<ChoreItem>("SELECT * FROM Chores ORDER BY name ASC");
             }
         }
     }
