@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Swashbuckle.AspNetCore.Swagger;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using TestApi.Models;
+using TestApi.Repositories;
 
 namespace TestApi
 {
@@ -31,12 +33,18 @@ namespace TestApi
 
             services.AddControllers();
 
-            services.AddDbContext<ChoreContext>(opt =>
-                                                opt.UseInMemoryDatabase("ChoreList"));
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "TestApi", Version = "v1" });
-            //});
+            //services.AddDbContext<ChoreContext>(opt =>
+            //                                    opt.UseInMemoryDatabase("ChoreList"));
+
+            services.AddScoped<IChoreRepository>(factory => {
+                return new ChoreRepository(Configuration.GetConnectionString("MySQL"));
+            });
+
+            
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TestApi", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,8 +53,8 @@ namespace TestApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseSwagger();
-                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TestApi v1"));
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ChoresApi v1"));
             }
 
             //app.UseHttpsRedirection();
