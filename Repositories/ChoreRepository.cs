@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using TestApi.Models;
 using MySqlConnector;
 using Dapper;
@@ -18,6 +19,14 @@ namespace TestApi.Repositories
             using(MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 return connection.Query<ChoreItem>("SELECT * FROM Chores ORDER BY name ASC");
+            }
+        }
+        public IEnumerable<ChoreItem> Get(int id)
+        {
+            using(MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                String s = String.Format("SELECT * FROM Chores WHERE id = {0}", id);
+                return connection.Query<ChoreItem>(s);
             }
         }
     }

@@ -19,11 +19,24 @@ namespace TestApi.Controller
         {
             _choreRepository = choreRepository;
         }
+
+        // GET: api/Chores
         [HttpGet]
         [Produces(typeof(ChoreItem))]
         public IActionResult Get()
         {
             var chore = _choreRepository.GetAll();
+            if (chore.Count() == 0)
+                return NoContent();
+            return Ok(chore);
+        }
+
+        // GET: api/Chores/<int: id>
+        [HttpGet("{id}")]
+        [Produces(typeof(ChoreItem))]
+        public IActionResult Get(int id)
+        {
+            var chore = _choreRepository.Get(id);
             if (chore.Count() == 0)
                 return NoContent();
             return Ok(chore);
