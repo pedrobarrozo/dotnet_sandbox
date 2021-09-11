@@ -41,5 +41,13 @@ namespace TestApi.Controller
                 return NoContent();
             return Ok(chore);
         }
+
+        // POST: api/Chores
+        [HttpPost]
+        public int Post(ChoreItem chore)
+        {
+            var resp = _choreRepository.Create(chore);
+            return resp;
+        }
     }
 }

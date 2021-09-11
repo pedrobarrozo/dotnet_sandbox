@@ -29,5 +29,15 @@ namespace TestApi.Repositories
                 return connection.Query<ChoreItem>(s);
             }
         }
+        public int Create(ChoreItem chore)
+        {
+            using(MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                String s = String.Format("INSERT INTO Chores(`name`, `description`) VALUES ('{0}', '{1}')", chore.Name, chore.Description);
+                Console.WriteLine(s);
+                connection.Query(s);
+                return {"status": 201};
+            }
+        }
     }
 }

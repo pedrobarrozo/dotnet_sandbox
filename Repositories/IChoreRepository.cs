@@ -8,6 +8,7 @@ namespace TestApi.Repositories
     {
         IEnumerable<ChoreItem> GetAll();
         IEnumerable<ChoreItem> Get(int id);
+        int Create(ChoreItem chore);
     }
     
 }
