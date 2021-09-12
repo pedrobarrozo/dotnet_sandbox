@@ -10,6 +10,7 @@ namespace TestApi.Repositories
         IEnumerable<ChoreItem> Get(int id);
         ChoreItem Create(ChoreItem chore);
         IEnumerable<ChoreItem> Update(int id,ChoreItem chore);
+        void Delete(int id);
     }
     
 }

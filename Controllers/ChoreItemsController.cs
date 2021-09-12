@@ -51,12 +51,20 @@ namespace TestApi.Controller
             return resp;
         }
 
-        // POST: api/Chores/<int: id>
+        // PUT: api/Chores/<int: id>
         [HttpPut("{id}")]
         public IEnumerable<ChoreItem> Put(int id, ChoreItem chore)
         {
             var resp = _choreRepository.Update(id, chore);
             return resp;
+        }
+
+        // DELETE: api/Chores/<int: id>
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            _choreRepository.Delete(id);
+            return ;
         }
     }
 }

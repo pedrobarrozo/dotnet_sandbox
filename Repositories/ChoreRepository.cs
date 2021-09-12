@@ -66,5 +66,14 @@ namespace TestApi.Repositories
                 return connection.Query<ChoreItem>(r);
             }
         }
+
+        public void Delete(int id)
+        {
+            using(MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                String s = String.Format("DELETE FROM Chores WHERE id = {0}", id);
+                connection.Query(s);
+            }
+        }
     }
 }
